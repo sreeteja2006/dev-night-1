@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import HomePage from './pages/Home'
 import { BrowserRouter,Route,Routes } from 'react-router-dom'
+import CreateAuction from './pages/CreateAuction'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<HomePage/>}></Route>
+      <Route path="/create-auction" element={<CreateAuction/>}></Route>
     </Routes>
     </BrowserRouter>
     </>
