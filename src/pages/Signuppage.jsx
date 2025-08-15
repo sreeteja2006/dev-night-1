@@ -1,13 +1,13 @@
 // src/pages/Signup.jsx
 import React, { useState } from "react";
 import { FaUser, FaLock, FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
-import Login from "../components/Loginpage";
+import AuthLayout from "../components/Authlayout";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <Login
+    <AuthLayout
       title="Create an Account"
       infoTitle="Join the Auction Community"
       infoText="Discover exclusive deals, bid on unique items, and sell effortlessly."
@@ -62,7 +62,7 @@ const Signup = () => {
           <a href="/login" className="text-indigo-400 hover:underline">Log in</a>
         </p>
       </form>
-    </Login>
+    </AuthLayout>
   );
 };
 
