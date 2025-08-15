@@ -1,8 +1,10 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import { ShoppingCart, Search, Plus, Clock, Mail, Lock } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
+    const navigate=useNavigate()
   return (
     <div className="bg-gray-950 min-h-screen text-white">
       {/* Navbar */}
@@ -28,7 +30,7 @@ export default function HomePage() {
           <button className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md">
             <Search size={18} /> Browse Auctions
           </button>
-          <button className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 px-4 py-2 rounded-md">
+          <button onClick={()=>{navigate('/create-auction')}} className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 px-4 py-2 rounded-md">
             <Plus size={18} /> Start Selling
           </button>
         </div>

@@ -1,7 +1,9 @@
 import React from "react";
 import { Settings, User, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+    const navigate=useNavigate()
   return (
     <nav className="bg-gray-900 text-white px-6 py-3 flex items-center justify-between shadow-md">
       {/* Logo */}
@@ -29,7 +31,7 @@ export default function Navbar() {
         <button className="flex items-center gap-1 px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-md text-sm">
           <User size={16} /> Profile
         </button>
-        <button className="flex items-center gap-1 px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-md text-sm">
+        <button onClick={()=>{navigate('/login')}} className="flex items-center gap-1 px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-md text-sm">
           <LogOut size={16} /> Logout
         </button>
       </div>
