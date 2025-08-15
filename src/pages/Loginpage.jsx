@@ -1,25 +1,58 @@
-// src/components/AuthLayout.jsx
-import React from "react";
+import React, { useState } from "react";
+import { FaUser, FaLock } from "react-icons/fa";
+import AuthLayout from "../components/Authlayout";
 
-const Login = ({ children, title, infoTitle, infoText }) => {
+const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white p-4">
-      <div className="flex flex-col md:flex-row w-full max-w-5xl bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-        
-        {/* Left - Form */}
-        <div className="w-full md:w-1/2 p-8">
-          <h2 className="text-2xl font-bold text-indigo-400 mb-6">{title}</h2>
-          {children}
+    <AuthLayout
+      title="Login to Your Account"
+      infoTitle="Welcome Back!"
+      infoText="Continue bidding, selling, and discovering amazing auctions."
+    >
+      <form className="space-y-4">
+        {/* Username */}
+        <div className="flex items-center bg-gray-700 p-3 rounded-lg">
+          <FaUser className="text-gray-400 mr-3" />
+          <input
+            type="text"
+            placeholder="Username"
+            className="bg-transparent outline-none w-full"
+          />
         </div>
 
-        {/* Right - Info */}
-        <div className="w-full md:w-1/2 bg-indigo-500 flex flex-col items-center justify-center p-8 text-center">
-          <div className="text-4xl mb-4">🚀</div>
-          <h2 className="text-2xl font-bold mb-2">{infoTitle}</h2>
-          <p className="text-white/80">{infoText}</p>
+        {/* Password */}
+        <div className="flex items-center bg-gray-700 p-3 rounded-lg">
+          <FaLock className="text-gray-400 mr-3" />
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            className="bg-transparent outline-none w-full"
+          />
+          <span
+            className="cursor-pointer text-gray-400 ml-2"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </span>
         </div>
-      </div>
-    </div>
+
+        <button
+          type="submit"
+          className="w-full bg-indigo-500 hover:bg-indigo-600 p-3 rounded-lg font-semibold"
+        >
+          Login
+        </button>
+
+        <p className="text-center text-sm text-gray-400">
+          Don’t have an account?{" "}
+          <a href="/signup" className="text-indigo-400 hover:underline">
+            Sign up
+          </a>
+        </p>
+      </form>
+    </AuthLayout>
   );
 };
 
