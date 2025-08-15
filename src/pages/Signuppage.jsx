@@ -1,7 +1,7 @@
 // src/pages/Signup.jsx
 import React, { useState } from "react";
 import { FaUser, FaLock, FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
-import AuthLayout from "./Authlayout";
+import AuthLayout from "../components/Authlayout";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
