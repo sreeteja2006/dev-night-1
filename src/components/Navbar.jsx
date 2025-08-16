@@ -6,7 +6,6 @@ export default function Navbar() {
     const navigate=useNavigate()
   return (
     <nav className="bg-gray-900 text-white px-6 py-3 flex items-center justify-between shadow-md">
-      {/* Logo */}
       <div className="flex items-center gap-2">
         <div className="bg-emerald-500 p-2 rounded-md">
           <svg
@@ -23,7 +22,6 @@ export default function Navbar() {
         <span className="font-semibold text-lg">Auction System</span>
       </div>
 
-      {/* Right buttons */}
       <div className="flex items-center gap-3">
         <button className="flex items-center gap-1 px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded-md text-sm">
           <Settings size={16} /> Settings
