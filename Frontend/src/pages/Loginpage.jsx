@@ -1,27 +1,68 @@
 // src/components/AuthLayout.jsx
 import React from "react";
+const Login = () => {
+  const [formData,setFormData] ={
+    password: "",
+    email: "",
+  };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: [e, target.value] })
+  };
 
-const Login = ({ children, title, infoTitle, infoText }) => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white p-4">
-      <div className="flex flex-col md:flex-row w-full max-w-5xl bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-        
-        {/* Left - Form */}
-        <div className="w-full md:w-1/2 p-8">
-          <h2 className="text-2xl font-bold text-indigo-400 mb-6">{title}</h2>
-          {children}
-        </div>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
+    try {
+      const response = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
 
-        {/* Right - Info */}
-        <div className="w-full md:w-1/2 bg-indigo-500 flex flex-col items-center justify-center p-8 text-center">
-          <div className="text-4xl mb-4">🚀</div>
-          <h2 className="text-2xl font-bold mb-2">{infoTitle}</h2>
-          <p className="text-white/80">{infoText}</p>
-        </div>
-      </div>
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Login failed");
+        return;
+      }
+
+      navigate("/homepage");
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    }
+  };
+  <>
+    <div className="flex items-center bg-gray-700 p-3 rounded-lg">
+      <FaEnvelope className="text-gray-400 mr-3" />
+      <input type="email" placeholder="Email" className="bg-transparent outline-none w-full" value={formData.email} onChange={handleChange} />
     </div>
-  );
-};
+
+    <div className="flex items-center bg-gray-700 p-3 rounded-lg">
+      <FaLock className="text-gray-400 mr-3" />
+      <input
+        type={showPassword ? "text" : "password"}
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+        className="bg-transparent outline-none w-full"
+      />
+      <span
+        className="cursor-pointer text-gray-400"
+        onClick={() => setShowPassword(!showPassword)}
+      >
+        {showPassword ? "🙈" : "👁️"}
+      </span>
+    </div>
+    <button type="submit" onChange={handleSubmit} className="w-full bg-indigo-500 hover:bg-indigo-600 p-3 rounded-lg font-semibold">
+      Login
+      </button>
+
+  </>
+
+}
 
 export default Login;
