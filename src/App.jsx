@@ -7,6 +7,7 @@ import { BrowserRouter,Route,Routes } from 'react-router-dom'
 import CreateAuction from './pages/CreateAuction'
 import Login from './pages/Loginpage'
 import Signup from './pages/Signuppage'
+import AuctionItems from './pages/AuctionItems'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/create-auction" element={<CreateAuction/>}></Route>
       <Route path='/login' element={<Login></Login>}/>
       <Route path='/signup' element={<Signup></Signup>}/>
+      <Route path='auction-items' element={<AuctionItems/>}/>
     </Routes>
     </BrowserRouter>
     </>

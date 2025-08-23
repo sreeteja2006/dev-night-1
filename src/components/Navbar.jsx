@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <nav className="bg-gray-900 text-white px-6 py-3 flex items-center justify-between shadow-md">
       {/* Logo */}
-      <div className="flex items-center gap-2">
+      <div onClick={()=>{navigate('/')}} className="flex items-center gap-2">
         <div className="bg-emerald-500 p-2 rounded-md">
           <svg
             xmlns="http://www.w3.org/2000/svg"

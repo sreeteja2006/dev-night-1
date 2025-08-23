@@ -27,7 +27,7 @@ export default function HomePage() {
 
         {/* Buttons */}
         <div className="mt-6 flex justify-center gap-4">
-          <button className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md">
+          <button onClick={()=>{navigate('/auction-items')}} className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md">
             <Search size={18} /> Browse Auctions
           </button>
           <button onClick={()=>{navigate('/create-auction')}} className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 px-4 py-2 rounded-md">
