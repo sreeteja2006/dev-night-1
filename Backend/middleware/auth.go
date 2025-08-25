@@ -16,9 +16,7 @@ func Authenticate(context *gin.Context) {
 		return
 	}
 
-	if strings.HasPrefix(token, "Bearer ") {
-		token = strings.TrimPrefix(token, "Bearer ")
-	}
+	token = strings.TrimPrefix(token, "Bearer ")
 
 	userId, err := utils.VerifyToken(token)
 	if err != nil {

@@ -22,9 +22,9 @@ type Auction struct {
 
 type Bid struct {
 	ID        int64     `json:"id"`
-	AuctionID int64     `json:"auction_id" binding:"required"`
+	AuctionID int64     `json:"auction_id"`
 	BidderID  int64     `json:"bidder_id"`
-	BidAmount float64   `json:"bid_amount" binding:"required"`
+	BidAmount float64   `json:"bid_amount"`
 	BidTime   time.Time `json:"bid_time"`
 }
 

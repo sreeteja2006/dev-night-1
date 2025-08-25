@@ -105,7 +105,6 @@ export const auctionAPI = {
     return makeAuthenticatedRequest(`/auctions/${auctionId}/bids`, {
       method: 'POST',
       body: JSON.stringify({
-        auction_id: auctionId,
         bid_amount: bidAmount,
       }),
     });

@@ -155,12 +155,12 @@ function AuctionCard({ auction }) {
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+    <div className="bg-gray-800 rounded-lg object-contain shadow-lg hover:shadow-xl transition-shadow">
       {auction.image_url && (
         <img 
           src={auction.image_url} 
           alt={auction.title}
-          className="w-full h-48 object-cover"
+          className="w-full h-48 object-contain"
         />
       )}
       <div className="p-6">

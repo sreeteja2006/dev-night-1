@@ -56,31 +56,45 @@ func GetAuction(context *gin.Context) {
 }
 
 func PlaceBid(context *gin.Context) {
-	var bid models.Bid
 
-	err := context.ShouldBindJSON(&bid)
+	auctionId, err := strconv.ParseInt(context.Param("id"), 10, 64)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse auction id."})
+		return
+	}
+
+	var bidRequest struct {
+		BidAmount float64 `json:"bid_amount" binding:"required"`
+	}
+
+	err = context.ShouldBindJSON(&bidRequest)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data.", "error": err.Error()})
 		return
 	}
 
 	userId := context.GetInt64("userId")
-	bid.BidderID = userId
 
-	// Get auction to validate bid
+	bid := models.Bid{
+		AuctionID: auctionId,
+		BidderID:  userId,
+		BidAmount: bidRequest.BidAmount,
+	}
+
+
 	auction, err := models.GetAuctionByID(bid.AuctionID)
 	if err != nil {
 		context.JSON(http.StatusNotFound, gin.H{"message": "Auction not found."})
 		return
 	}
 
-	// Check if bid is higher than current bid
+
 	if bid.BidAmount <= auction.CurrentBid {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Bid must be higher than current bid."})
 		return
 	}
 
-	// Check if auction is still active
+
 	if auction.Status != "active" {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Auction is not active."})
 		return
