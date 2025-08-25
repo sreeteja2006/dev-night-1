@@ -7,56 +7,51 @@ import (
 )
 
 type User struct {
-	Userid    int64
-	Username  string
-	Password  string
-	Email     string
-	Address   string
-	MobileNum int64
+	ID        int64  `json:"id"`
+	Username  string `json:"username" `
+	Email     string `json:"email"`
+	Password  string `json:"password" `
+	Address   string `json:"address" `
+	MobileNum string `json:"mobile_num"`
 }
 
 func (u *User) AddUser() error {
-	query := `INSERT INTO users (username, password,email,address,mobilenum) VALUES(?,?,?,?,?)`
+	hashedPassword, err := utils.HashPassword(u.Password)
+	if err != nil {
+		return err
+	}
+
+	query := "INSERT INTO users(username, email, password, address, mobile_num) VALUES (?, ?, ?, ?, ?)"
 	stmt, err := db.DB.Prepare(query)
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
 
-	hashpassword, err := utils.HashPassword(u.Password)
-	if err != nil {
-		return err
-	}
-
-	result, err := stmt.Exec(u.Email, hashpassword)
+	result, err := stmt.Exec(u.Username, u.Email, hashedPassword, u.Address, u.MobileNum)
 	if err != nil {
 		return err
 	}
 
 	id, err := result.LastInsertId()
-	if err != nil {
-		return err
-	}
-
-	u.Userid = id
-	return nil
+	u.ID = id
+	return err
 }
+
 func (u *User) ValidateCredentials() error {
-	query := `SELECT id,password FROM users WHERE email =?`
+	query := "SELECT id, password FROM users WHERE email = ?"
 	row := db.DB.QueryRow(query, u.Email)
 
-	var retreivedPassword string
-	err := row.Scan(&u.Userid, &retreivedPassword)
-
+	var retrievedPassword string
+	err := row.Scan(&u.ID, &retrievedPassword)
 	if err != nil {
-		return errors.New("credentials Invalid")
+		return errors.New("invalid credentials")
 	}
 
-	passwordIsValid := utils.CheckPasswordHash(u.Password, retreivedPassword)
+	passwordIsValid := utils.CheckPasswordHash(u.Password, retrievedPassword)
 	if !passwordIsValid {
-		return errors.New("credentials Invalid")
+		return errors.New("invalid credentials")
 	}
 
 	return nil
-
 }

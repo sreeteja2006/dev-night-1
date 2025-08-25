@@ -1,41 +1,49 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { auctionAPI, isAuthenticated } from '../services/api';
 
 const CreateAuction = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
   const [startingBid, setStartingBid] = useState('');
   const [auctionStartTime, setAuctionStartTime] = useState(new Date());
   const [auctionEndTime, setAuctionEndTime] = useState(new Date());
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const [auctionData,setauctionData] = {
-    title : "",
-    description: "",
-    image :"",
-    startingBid : "",
-    auctionStartTime:  "",
-    auctionEndTime: ""
-  }
-
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setImage(URL.createObjectURL(e.target.files[0]));
+  React.useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate('/login');
     }
-  };
+  }, [navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log({
-      title,
-      description,
-      image,
-      startingBid,
-      auctionStartTime,
-      auctionEndTime,
-    });
+    setLoading(true);
+    setError('');
+
+    try {
+      const auctionData = {
+        title,
+        description,
+        image_url: imageUrl,
+        starting_bid: parseFloat(startingBid),
+        start_time: auctionStartTime.toISOString(),
+        end_time: auctionEndTime.toISOString(),
+      };
+
+      await auctionAPI.createAuction(auctionData);
+      alert('Auction created successfully!');
+      navigate('/');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -70,16 +78,18 @@ const CreateAuction = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
-              Item Image
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="imageUrl">
+              Item Image URL
             </label>
             <input
-              type="file"
-              id="image"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              onChange={handleImageChange}
+              id="imageUrl"
+              type="url"
+              placeholder="https://example.com/image.jpg"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
             />
-            {image && <img src={image} alt="Item Preview" className="mt-2 rounded max-w-full h-auto" />}
+            {imageUrl && <img src={imageUrl} alt="Item Preview" className="mt-2 rounded max-w-full h-auto max-h-48" />}
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="startingBid">
@@ -122,12 +132,16 @@ const CreateAuction = () => {
               />
             </div>
           </div>
+          {error && (
+            <div className="mb-4 text-red-500 text-sm">{error}</div>
+          )}
           <div className="flex items-center justify-between">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
               type="submit"
+              disabled={loading}
             >
-              Create Auction
+              {loading ? 'Creating...' : 'Create Auction'}
             </button>
           </div>
         </form>

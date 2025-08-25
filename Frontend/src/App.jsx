@@ -3,6 +3,7 @@ import './App.css'
 import HomePage from './pages/Home'
 import { BrowserRouter,Route,Routes } from 'react-router-dom'
 import CreateAuction from './pages/CreateAuction'
+import AuctionDetail from './pages/AuctionDetail'
 import Signup from './pages/Signuppage'
 import Login  from './pages/Loginpage'
 
@@ -13,7 +14,8 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage/>}></Route>
       <Route path="/create-auction" element={<CreateAuction/>}></Route>
-      <Route path ="/sign-up"  element = {<Signup/>}></Route>
+      <Route path="/auction/:id" element={<AuctionDetail/>}></Route>
+      <Route path ="/signup"  element = {<Signup/>}></Route>
       <Route path ="/login"  element = {<Login/>}></Route>
 
     </Routes>
